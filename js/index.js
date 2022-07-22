@@ -1,56 +1,52 @@
-function createCard(data){
+let barraPesquisa = document.querySelector('.input')
+let getProductCard  =   document.querySelector('.cards_colection')
 
-    let getProductCard  =   document.querySelector('.cards_colection')
 
-    for(let i = 0; i < data.length ; i++){
-        let productCard = document.createElement('li')
-            productCard.setAttribute('class', 'card')
-        
-        let linkImg              = document.createElement('a')    
-            linkImg.setAttribute('class', 'card_link')
-
-        let cardImg              = document.createElement('img')    
-            cardImg.setAttribute('class', 'card_img')
-            cardImg.src = data[i].img
-
-        let cardDescription      = document.createElement('div')
-            cardDescription.setAttribute('class', 'div_description')
-
-        let linkCategory             = document.createElement('a')
-            linkCategory.setAttribute('class', 'category')
-            linkCategory.innerText  =   data[i].tag
-
-        let linkproductTitle     = document.createElement('a')
-        
-        let productTitle         = document.createElement('h1')
-            productTitle.setAttribute('class', 'product_title')
-            productTitle.innerText  =   data[i].nameItem
-
-        let productDescription   = document.createElement('p')
-            productDescription.setAttribute('class', 'product_description')
-            productDescription.innerText    =   data[i].description
-
-        let productValue         = document.createElement('strong')
-            productValue.setAttribute('class', 'product_value')
-            productValue.innerText  =   `R$${data[i].value}`
-
-        let addCart              = document.createElement('button')
-            addCart.setAttribute('class', 'add_cart')
-            addCart.innerText = 'Adicionar ao carrinho'
-
-        getProductCard.appendChild(productCard)
-        productCard.append(linkImg, cardDescription)
-        linkImg.append(cardImg)
-        cardDescription.append(linkCategory, linkproductTitle, productDescription, productValue, addCart)
-        linkproductTitle.append(productTitle)
-
-    }
-
-    return getProductCard
-
+function criarCards(data){
+    let lista = '';
+    getProductCard.innerHTML = ""
+    data.forEach((data, index) => {
+        lista += `
+                <li class="card">
+                    <a class="card_link">
+                        <img class="card_img" src="${data.img}"/>    
+                    </a>
+                    <div class="div_description">
+                        <a class="category">${data.tag}</a>
+                        <a>
+                            <h1 class="product_title">${data.nameItem}</h1>
+                        </a>
+                        <p class="product_description">${data.description}</p>
+                        <strong class="product_value">R$${data.value.toFixed(2)}</strong>
+                        <button class="add_cart" id="${data.id}">Adicionar carrinho</button>
+                    </div>
+                </li>
+        `
+    })
+    getProductCard.innerHTML = lista;
 }
 
-createCard(data)
+
+barraPesquisa.addEventListener('keyup', valorPesquisa)
+let procurarProdutos = ''
+function valorPesquisa (event){
+    let pesquisa = event.target.value
+    procurarProdutos = filtrarprodutos(pesquisa)   
+    teste.push(procurarProdutos)
+    teste.splice(0, 1)
+}
 
 
 
+
+
+let teste = []
+console.log(teste)
+
+function filtrarprodutos(procura){
+    return data.filter(produto =>{
+        return produto.nameItem.toLowerCase().includes(procura.toLowerCase());
+    })
+}
+
+criarCards(data)
